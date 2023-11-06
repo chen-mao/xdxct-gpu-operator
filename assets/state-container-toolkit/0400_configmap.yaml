@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: xdxct-container-toolkit-entrypoint
+  namespace: "FILLED BY THE OPERATOR"
+  labels:
+    app: xdxct-container-toolkit-daemonset
+data:
+  entrypoint.sh: |-
+    #!/bin/bash
+
+    set -e
+
+    # driver_root=/run/xdxct/driver
+    # driver_root_ctr_path=$driver_root
+
+    #
+    # if [[ -f /run/xdxct/validations/host-driver-ready ]]; then
+    #   driver_root=/
+    #   driver_root_ctr_path=/host
+    # fi
+    #
+
+    # export XDXCT_DRIVER_ROOT=$driver_root
+    # export DRIVER_ROOT_CTR_PATH=$driver_root_ctr_path
+    
+    sleep 5
+
+    exec xdxct-toolkit

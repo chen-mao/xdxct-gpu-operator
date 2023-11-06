@@ -1,0 +1,7 @@
+version: v1
+sharing:
+  timeSlicing:
+    renameByDefault: false
+    resources:
+    - name: xdxct.com/gpu
+      replicas: 10

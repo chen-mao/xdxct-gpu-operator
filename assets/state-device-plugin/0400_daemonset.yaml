@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  labels:
+    app: xdxct-device-plugin-daemonset
+  name: xdxct-device-plugin-daemonset
+  namespace: "FILLED BY THE OPERATOR"
+spec:
+  selector:
+    matchLabels:
+      app: xdxct-device-plugin-daemonset
+  template:
+    metadata:
+      labels:
+        app: xdxct-device-plugin-daemonset
+    spec:
+      nodeSelector:
+        xdxct.com/gpu.deploy.device-plugin: "true"
+      tolerations:
+        - key: xdxct.com/gpu
+          operator: Exists
+          effect: NoSchedule
+      priorityClassName: system-node-critical
+      serviceAccountName: xdxct-device-plugin
+      containers:
+      - image: "FILLED BY THE OPERATOR"
+        name: xdxct-device-plugin
+        securityContext:
+          privileged: true
+        volumeMounts:
+          - name: device-plugin
+            mountPath: /var/lib/kubelet/device-plugins
+          - name: run-xdxct
+            mountPath: /run/xdxct
+            mountPropagation: HostToContainer
+      volumes:
+        - name: device-plugin
+          hostPath:
+            path: /var/lib/kubelet/device-plugins
+        - name: run-xdxct
+          hostPath:
+            path: "/run/xdxct"
+            type: Directory
